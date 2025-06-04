@@ -3,6 +3,8 @@ import { useAccount } from 'wagmi';
 import ConnectWallet from '../ConnectWallet';
 
 import BuilderBob from './../../../assets/builder-bob.png';
+import { NavLink } from 'react-router-dom';
+import classNames from 'classnames';
 
 export default function Header() {
   const { isConnected } = useAccount();
@@ -17,21 +19,29 @@ export default function Header() {
       </div>
       <div className="border-b py-2">
         <div className="max-w-4xl mx-auto flex flex-row gap-6">
-          <a
-            href="/"
-            className="flex gap-3 items-center bg-lime-200 px-3 py-1 rounded-md"
+          <NavLink
+            to="/"
+            className={({ isActive }) =>
+              classNames('flex gap-3 items-center px-3 py-1 rounded-md', {
+                'bg-lime-200': isActive,
+              })
+            }
           >
             <span className="material-symbols-outlined">visibility</span>{' '}
             Overview
-          </a>
+          </NavLink>
           {isConnected && (
-            <a
-              href="/campaigns"
-              className="flex gap-3 items-center px-3 py-1 rounded-md"
+            <NavLink
+              to="/add"
+              className={({ isActive }) =>
+                classNames('flex gap-3 items-center px-3 py-1 rounded-md', {
+                  'bg-lime-200': isActive,
+                })
+              }
             >
-              <span className="material-symbols-outlined">rocket_launch</span>{' '}
-              My campaigns
-            </a>
+              <span className="material-symbols-outlined">domain_add</span> Add
+              building
+            </NavLink>
           )}
         </div>
       </div>
