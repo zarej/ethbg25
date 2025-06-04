@@ -1,4 +1,3 @@
-import Button from '../Button';
 import ConnectWallet from '../ConnectWallet';
 import BuilderBob from './../../../assets/builder-bob.png';
 

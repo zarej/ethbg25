@@ -1,5 +1,4 @@
 import { ConnectKitButton } from 'connectkit';
-import Button from '../Button';
 
 export default function ConnectWallet() {
   return (
