@@ -1,5 +1,11 @@
 {
   "name": "@react-monorepo/builder-bob",
   "version": "0.0.1",
-  "private": true
+  "private": true,
+  "dependencies": {
+    "@tanstack/react-query": "^5.80.2",
+    "classnames": "^2.5.1",
+    "viem": "^2.30.6",
+    "wagmi": "^2.15.5"
+  }
 }
