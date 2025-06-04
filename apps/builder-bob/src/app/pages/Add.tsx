@@ -4,17 +4,44 @@ import { useState } from 'react';
 import Button from '../components/Button';
 import ConnectWallet from '../components/ConnectWallet';
 
+import usePinataJsonUpload from '../hooks/usePinataJsonUpload';
+import usePinataFileUpload from '../hooks/usePinataFileUpload';
+
 export default function Add() {
   const { isConnected, isConnecting } = useAccount();
+  const { mutateAsync: uploadFile } = usePinataFileUpload();
+  const { mutateAsync: uploadJson } = usePinataJsonUpload();
 
   const [apartments, setApartments] = useState<any[]>([]);
+  const [buildingImage, setBuildingImage] = useState<any>();
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleFileChange = async (e: any) => {
+    const file = e.target.files[0];
+    setBuildingImage(file);
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const data = new FormData(e.currentTarget);
+    try {
+      const formData = new FormData(e.currentTarget);
 
-    console.log(data);
+      const { IpfsHash: buildingImageIpfsHash } = await uploadFile(
+        buildingImage
+      );
+
+      const { IpfsHash: jsonIpfsHash } = await uploadJson({
+        name: formData.get('name'),
+        address: formData.get('address'),
+        floors: formData.get('floors'),
+        investor: formData.get('investor'),
+        image: buildingImageIpfsHash,
+      });
+
+      console.log('json', jsonIpfsHash);
+    } catch (e) {
+      console.error('Upload failed:', e);
+    }
   };
 
   if (isConnecting) {
@@ -73,7 +100,9 @@ export default function Add() {
                 required
                 type="file"
                 name="image"
+                accept="image/png, image/jpeg"
                 className="border rounded w-full px-3 py-1"
+                onChange={handleFileChange}
               />
             </div>
             {apartments.map((apartment, i) => (
