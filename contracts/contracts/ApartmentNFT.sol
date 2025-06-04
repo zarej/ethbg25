@@ -1,4 +1,3 @@
-
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
@@ -22,7 +21,7 @@ contract ApartmentNFT is ERC721URIStorage, Ownable {
 
     IBuildingRegistry public buildingRegistry;
 
-    constructor(address registryAddress) ERC721("ApartmentNFT", "APT") {
+    constructor(address registryAddress) ERC721("ApartmentNFT", "APT") Ownable(msg.sender) {
         buildingRegistry = IBuildingRegistry(registryAddress);
     }
 
