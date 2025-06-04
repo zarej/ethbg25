@@ -5,6 +5,7 @@ import Web3Provider from './Web3Provider';
 
 import Home from './pages/Home';
 import Campaigns from './pages/Campaign';
+import Apartment from './pages/Apartment';
 
 export function App() {
   return (
@@ -12,7 +13,8 @@ export function App() {
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/campaigns" element={<Campaigns />} />
+          <Route path="/campaign/:id" element={<Campaigns />} />
+          <Route path="/campaign/:id/apartment/:id" element={<Apartment />} />
         </Routes>
       </Layout>
     </Web3Provider>

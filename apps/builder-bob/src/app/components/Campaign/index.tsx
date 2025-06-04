@@ -1,5 +1,6 @@
 import Hr from '../Hr';
 import Bristol from './../../../assets/bristol2.webp';
+import Apartment from './Apartment';
 
 const Campaign = () => {
   return (
@@ -31,6 +32,44 @@ const Campaign = () => {
         </p>
       </div>
       <Hr />
+      <div className="w-full flex flex-col gap-1">
+        <a
+          href="/campaign/1/apartment/1"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+        <a
+          href="/campaign/1/apartment/2"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+        <a
+          href="/campaign/1/apartment/3"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+        <a
+          href="/campaign/1/apartment/4"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+        <a
+          href="/campaign/1/apartment/5"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+        <a
+          href="/campaign/1/apartment/6"
+          className="p-3 bg-gray-600 w-full text-white rounded-md"
+        >
+          Apartment 1, Floor 1, 33m2, 0.05/m2
+        </a>
+      </div>
     </div>
   );
 };
@@ -39,7 +78,7 @@ function CampaignEmbed() {
   return (
     <div className="rounded-md relative">
       <a
-        href="/campaigns"
+        href="/campaign/1"
         className="absolute top-0 left-0 w-full h-full cursor-pointer z-[999]"
       />
       <img src={Bristol} />
@@ -73,5 +112,6 @@ function CampaignList() {
 
 Campaign.List = CampaignList;
 Campaign.Embed = CampaignEmbed;
+Campaign.Apartment = Apartment;
 
 export default Campaign;
