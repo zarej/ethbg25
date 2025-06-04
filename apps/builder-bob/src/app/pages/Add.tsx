@@ -59,8 +59,17 @@ export default function Add() {
               <input
                 required
                 type="text"
-                placeholder="Test"
+                placeholder="THE BRISTOL RESIDENCES"
                 name="name"
+                className="border rounded w-full px-3 py-1"
+              />
+            </div>
+            <div className="w-full mb-4">
+              <p className="text-sm text-gray-700">Summary</p>
+              <textarea
+                required
+                placeholder="Bristol Residences has been developed as a premium residential complex in the form of a 'U', with an internal yard. At your doorstep, there are shops, cafes, restaurants and a swimming pool surrounded by greenery, with integrated hydromassage baths and accompanying facilities, as well as Residence Club, gym and meeting office and work office."
+                name="summary"
                 className="border rounded w-full px-3 py-1"
               />
             </div>
@@ -69,7 +78,7 @@ export default function Add() {
               <input
                 required
                 type="text"
-                placeholder="Test"
+                placeholder="Karađorđeva 50, Beograd 11000"
                 name="address"
                 className="border rounded w-full px-3 py-1"
               />
@@ -78,8 +87,8 @@ export default function Add() {
               <p className="text-sm text-gray-700">Number of floors</p>
               <input
                 required
-                type="text"
-                placeholder="1"
+                type="number"
+                placeholder="5"
                 name="floors"
                 className="border rounded w-full px-3 py-1"
               />
