@@ -1,31 +1,22 @@
-import { Route, Routes, Link } from 'react-router-dom';
-import { QueryClient } from '@tanstack/react-query';
+import { Route, Routes } from 'react-router-dom';
 
 import Layout from './Layout';
 import Web3Provider from './Web3Provider';
+
+import Add from './pages/Add';
+import Home from './pages/Home';
+import Campaigns from './pages/Campaign';
+import Apartment from './pages/Apartment';
 
 export function App() {
   return (
     <Web3Provider>
       <Layout>
         <Routes>
-          <Route
-            path="/"
-            element={
-              <div>
-                This is the generated root route.{' '}
-                <Link to="/page-2">Click here for page 2.</Link>
-              </div>
-            }
-          />
-          <Route
-            path="/page-2"
-            element={
-              <div>
-                <Link to="/">Click here to go back to root page.</Link>
-              </div>
-            }
-          />
+          <Route path="/" element={<Home />} />
+          <Route path="/add" element={<Add />} />
+          <Route path="/campaign/:id" element={<Campaigns />} />
+          <Route path="/campaign/:id/apartment/:id" element={<Apartment />} />
         </Routes>
       </Layout>
     </Web3Provider>
