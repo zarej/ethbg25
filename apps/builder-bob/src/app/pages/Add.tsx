@@ -3,17 +3,22 @@ import Spinner from '../components/Spinner';
 import { useState } from 'react';
 import Button from '../components/Button';
 import ConnectWallet from '../components/ConnectWallet';
+import { waitForTransactionReceipt } from '@wagmi/core';
+import { config } from '../../config';
 
 import usePinataJsonUpload from '../hooks/usePinataJsonUpload';
 import usePinataFileUpload from '../hooks/usePinataFileUpload';
+import useBuildingRegistryContract from '../hooks/useBuildingRegistryContract';
 
 export default function Add() {
   const { isConnected, isConnecting } = useAccount();
   const { mutateAsync: uploadFile } = usePinataFileUpload();
   const { mutateAsync: uploadJson } = usePinataJsonUpload();
+  const { createBuilding } = useBuildingRegistryContract();
 
-  const [apartments, setApartments] = useState<any[]>([]);
   const [buildingImage, setBuildingImage] = useState<any>();
+  const [submitButtonDisabled, setSubmitButtonDisabled] =
+    useState<boolean>(false);
 
   const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
@@ -24,6 +29,7 @@ export default function Add() {
     e.preventDefault();
 
     try {
+      setSubmitButtonDisabled(true);
       const formData = new FormData(e.currentTarget);
 
       const { IpfsHash: buildingImageIpfsHash } = await uploadFile(
@@ -35,12 +41,20 @@ export default function Add() {
         address: formData.get('address'),
         floors: formData.get('floors'),
         investor: formData.get('investor'),
+        description: formData.get('summary'),
         image: buildingImageIpfsHash,
       });
 
-      console.log('json', jsonIpfsHash);
+      const txHash = await createBuilding(jsonIpfsHash);
+
+      await waitForTransactionReceipt(config, { hash: txHash as any });
+      console.log('tx', txHash);
+      setSubmitButtonDisabled(false);
+
+      window.location.reload();
     } catch (e) {
       console.error('Upload failed:', e);
+      setSubmitButtonDisabled(false);
     }
   };
 
@@ -65,11 +79,11 @@ export default function Add() {
               />
             </div>
             <div className="w-full mb-4">
-              <p className="text-sm text-gray-700">Summary</p>
+              <p className="text-sm text-gray-700">Description</p>
               <textarea
                 required
                 placeholder="Bristol Residences has been developed as a premium residential complex in the form of a 'U', with an internal yard. At your doorstep, there are shops, cafes, restaurants and a swimming pool surrounded by greenery, with integrated hydromassage baths and accompanying facilities, as well as Residence Club, gym and meeting office and work office."
-                name="summary"
+                name="description"
                 className="border rounded w-full px-3 py-1"
               />
             </div>
@@ -98,7 +112,7 @@ export default function Add() {
               <input
                 required
                 type="text"
-                placeholder="Test"
+                placeholder="Belgrade Real Estate"
                 name="investor"
                 className="border rounded w-full px-3 py-1"
               />
@@ -109,70 +123,16 @@ export default function Add() {
                 required
                 type="file"
                 name="image"
-                accept="image/png, image/jpeg"
+                accept="image/png, image/jpeg, image/webp"
                 className="border rounded w-full px-3 py-1"
                 onChange={handleFileChange}
               />
             </div>
-            {apartments.map((apartment, i) => (
-              <div
-                key={`apartment_${i}`}
-                className="flex flex-row gap-3 border mb-4 px-4 py-3 rounded-md"
-              >
-                <div className="w-full mb-4">
-                  <p className="text-sm text-gray-700">Apartment Number</p>
-                  <input
-                    type="text"
-                    name={`apartment[${i}][number]`}
-                    value={i + 1}
-                    className="border rounded w-full px-3 py-1"
-                  />
-                </div>
-                <div className="w-full mb-4">
-                  <p className="text-sm text-gray-700">Floor</p>
-                  <input
-                    type="number"
-                    name={`apartment[${i}][floor]`}
-                    value="1"
-                    className="border rounded w-full px-3 py-1"
-                  />
-                </div>
-                <div className="w-full mb-4">
-                  <p className="text-sm text-gray-700">Square meters</p>
-                  <input
-                    type="number"
-                    name={`apartment[${i}][sqare_meters]`}
-                    value="33"
-                    className="border rounded w-full px-3 py-1"
-                  />
-                </div>
-                <div className="w-full mb-4">
-                  <p className="text-sm text-gray-700">Price</p>
-                  <input
-                    type="text"
-                    name={`apartment[${i}][price]`}
-                    value="1"
-                    className="border rounded w-full px-3 py-1"
-                  />
-                </div>
-                <div className="w-full mb-4">
-                  <p className="text-sm text-gray-700">Blueprint</p>
-                  <input
-                    type="file"
-                    name={`apartment[${i}][blueprint]`}
-                    className="border rounded w-full px-3 py-1"
-                  />
-                </div>
-              </div>
-            ))}
             <Button
-              className="my-5"
-              style="transparent"
-              onClick={() => setApartments([...apartments, {}])}
+              type="submit"
+              className="w-full my-6"
+              disabled={submitButtonDisabled}
             >
-              + Add apartment
-            </Button>
-            <Button type="submit" className="w-full mt-6">
               Submit
             </Button>
           </form>

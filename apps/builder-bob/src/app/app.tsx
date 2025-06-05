@@ -16,7 +16,7 @@ export function App() {
           <Route path="/" element={<Home />} />
           <Route path="/add" element={<Add />} />
           <Route path="/campaign/:id" element={<Campaigns />} />
-          <Route path="/campaign/:id/apartment/:id" element={<Apartment />} />
+          <Route path="/campaign/:id/apartment/:apartment" element={<Apartment />} />
         </Routes>
       </Layout>
     </Web3Provider>
