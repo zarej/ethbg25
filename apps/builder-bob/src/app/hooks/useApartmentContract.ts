@@ -28,7 +28,6 @@ export default function useApartmentContract(): BuildingRegistryContractResponse
     pricePerSqM: string,
     metadataURI: string
   ): Promise<string> => {
-    console.log(buildingId, sizeInSqM, parseEther(pricePerSqM), metadataURI);
     const hash = await writeContractAsync({
       address: import.meta.env.VITE_APARTMENT_NFT_CONTRACT,
       abi: ApartmentNFTABI,

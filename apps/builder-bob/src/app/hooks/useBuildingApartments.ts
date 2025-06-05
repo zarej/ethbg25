@@ -6,7 +6,7 @@ import { config } from '../../config';
 import { formatEther } from 'viem';
 import axios from 'axios';
 
-type Apartment = {
+export type Apartment = {
   number?: number;
   buildingId?: number;
   sizeInSqM?: string;

@@ -26,7 +26,7 @@ export default function useBuildingRegistryContract(): BuildingRegistryContractR
   const createBuilding = async (
     metadataURI: string
   ): Promise<`0x${string}` | undefined> => {
-    await writeContractAsync({
+    const h = await writeContractAsync({
       address: import.meta.env.VITE_BUILDING_REGISTRY_CONTRACT,
       abi: BuildingRegistryABI,
       functionName: 'createBuilding',
@@ -37,7 +37,7 @@ export default function useBuildingRegistryContract(): BuildingRegistryContractR
       throw new Error(error?.message);
     }
 
-    return hash;
+    return h;
   };
 
   return {

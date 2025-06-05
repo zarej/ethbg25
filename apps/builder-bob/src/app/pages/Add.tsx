@@ -3,6 +3,8 @@ import Spinner from '../components/Spinner';
 import { useState } from 'react';
 import Button from '../components/Button';
 import ConnectWallet from '../components/ConnectWallet';
+import { waitForTransactionReceipt } from '@wagmi/core';
+import { config } from '../../config';
 
 import usePinataJsonUpload from '../hooks/usePinataJsonUpload';
 import usePinataFileUpload from '../hooks/usePinataFileUpload';
@@ -36,15 +38,16 @@ export default function Add() {
         address: formData.get('address'),
         floors: formData.get('floors'),
         investor: formData.get('investor'),
-        description: formData.get('description'),
+        description: formData.get('summary'),
         image: buildingImageIpfsHash,
       });
 
-      console.log('hash', jsonIpfsHash);
-
       const txHash = await createBuilding(jsonIpfsHash);
 
+      await waitForTransactionReceipt(config, { hash: txHash as any });
       console.log('tx', txHash);
+
+      window.location.reload();
     } catch (e) {
       console.error('Upload failed:', e);
     }
@@ -75,7 +78,7 @@ export default function Add() {
               <textarea
                 required
                 placeholder="Bristol Residences has been developed as a premium residential complex in the form of a 'U', with an internal yard. At your doorstep, there are shops, cafes, restaurants and a swimming pool surrounded by greenery, with integrated hydromassage baths and accompanying facilities, as well as Residence Club, gym and meeting office and work office."
-                name="description"
+                name="escription"
                 className="border rounded w-full px-3 py-1"
               />
             </div>
@@ -120,6 +123,9 @@ export default function Add() {
                 onChange={handleFileChange}
               />
             </div>
+            <Button type="submit" className="w-full">
+              Submit
+            </Button>
           </form>
         </div>
       ) : (
