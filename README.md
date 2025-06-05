@@ -4,6 +4,8 @@
 
 This project is a decentralized platform for managing and trading real estate properties using NFTs and ERC-1155 tokens. Each apartment is represented as an ERC-721 NFT, and its square meters are fractionalized into ERC-1155 tokens, allowing for shared ownership and democratic decision-making.
 
+[taikai url](https://taikai.network/ethbelgrade/hackathons/eth-belgrade-hackathon-3/projects/cmbinf8ru008wpppckdajafhl/idea)
+
 ## Features
 
 Building Registry: Owners can register buildings and add apartments with metadata.
