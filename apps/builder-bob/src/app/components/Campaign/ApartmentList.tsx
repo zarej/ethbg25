@@ -22,7 +22,7 @@ export default function ApartmentList({ buildingId }: { buildingId: number }) {
           className="p-3 bg-gray-600 w-full text-white rounded-md"
         >
           Apartment {number}, Floor {metadataDecoded.floor}, {sizeInSqM}m2,{' '}
-          {pricePerSqM}/m2
+          {pricePerSqM} ETH/m2
         </NavLink>
       ))}
     </div>

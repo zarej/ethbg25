@@ -4,6 +4,7 @@ import Payment from '../components/Payment';
 import useApartmentData from '../hooks/useApartmentData';
 import Spinner from '../components/Spinner';
 import useApartmentBuyoutContract from '../hooks/useApartmentBuyout';
+import { useState } from 'react';
 
 export default function Apartment() {
   const { id, apartment } = useParams<{ id: string; apartment: string }>();
@@ -14,8 +15,12 @@ export default function Apartment() {
   );
   const { buyout } = useApartmentBuyoutContract(Number(apartment));
 
+  const [bidButtonDisabled, setBidButtonDisabled] = useState<boolean>(false);
+
   const onBuy = async (price: any) => {
+    setBidButtonDisabled(true);
     await buyout(`${price}`);
+    setBidButtonDisabled(false);
   };
 
   if (isLoading || !data || !building) {
@@ -41,6 +46,7 @@ export default function Apartment() {
         <Payment
           price={parseFloat(data.size) * parseFloat(data.price)}
           onPay={onBuy}
+          disabled={bidButtonDisabled}
         />
       </div>
     </div>

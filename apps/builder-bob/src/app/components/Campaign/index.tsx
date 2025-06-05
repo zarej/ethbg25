@@ -24,6 +24,8 @@ const Campaign = ({ data }: { data: Building }) => {
 
   const [blueprint, setBlueprint] = useState();
   const [addApartmentVisible, setAddApartmentVisible] = useState(false);
+  const [addApartmentButtonDisabled, setAddApartmentButtonDisabled] =
+    useState<boolean>(false);
 
   const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
@@ -34,6 +36,7 @@ const Campaign = ({ data }: { data: Building }) => {
     e.preventDefault();
 
     try {
+      setAddApartmentButtonDisabled(true);
       const formData = new FormData(e.currentTarget);
 
       const { IpfsHash: blueprintImageHash } = await uploadFile(blueprint);
@@ -56,10 +59,12 @@ const Campaign = ({ data }: { data: Building }) => {
       );
 
       await waitForTransactionReceipt(config, { hash: hash as any });
+      setAddApartmentButtonDisabled(false);
 
       window.location.reload();
     } catch (e) {
       console.error('Upload failed:', e);
+      setAddApartmentButtonDisabled(false);
     }
   };
 
@@ -116,7 +121,11 @@ const Campaign = ({ data }: { data: Building }) => {
               onChange={handleFileChange}
             />
           </div>
-          <Button type="submit" className="w-full" disabled={isLoading}>
+          <Button
+            type="submit"
+            className="w-full"
+            disabled={addApartmentButtonDisabled}
+          >
             Submit
           </Button>
         </form>

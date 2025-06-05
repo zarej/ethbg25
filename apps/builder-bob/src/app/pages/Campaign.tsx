@@ -8,6 +8,7 @@ export default function Campaigns() {
   const { id } = useParams<{ id: string }>();
   const { isLoading, data } = useBuildingData(Number(id));
 
+  console.log('data', data);
   if (isLoading || !data) {
     return (
       <div className="w-full h-full bg-gray-200">

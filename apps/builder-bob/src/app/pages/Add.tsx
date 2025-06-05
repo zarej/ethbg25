@@ -17,6 +17,8 @@ export default function Add() {
   const { createBuilding } = useBuildingRegistryContract();
 
   const [buildingImage, setBuildingImage] = useState<any>();
+  const [submitButtonDisabled, setSubmitButtonDisabled] =
+    useState<boolean>(false);
 
   const handleFileChange = async (e: any) => {
     const file = e.target.files[0];
@@ -27,6 +29,7 @@ export default function Add() {
     e.preventDefault();
 
     try {
+      setSubmitButtonDisabled(true);
       const formData = new FormData(e.currentTarget);
 
       const { IpfsHash: buildingImageIpfsHash } = await uploadFile(
@@ -46,10 +49,12 @@ export default function Add() {
 
       await waitForTransactionReceipt(config, { hash: txHash as any });
       console.log('tx', txHash);
+      setSubmitButtonDisabled(false);
 
       window.location.reload();
     } catch (e) {
       console.error('Upload failed:', e);
+      setSubmitButtonDisabled(false);
     }
   };
 
@@ -78,7 +83,7 @@ export default function Add() {
               <textarea
                 required
                 placeholder="Bristol Residences has been developed as a premium residential complex in the form of a 'U', with an internal yard. At your doorstep, there are shops, cafes, restaurants and a swimming pool surrounded by greenery, with integrated hydromassage baths and accompanying facilities, as well as Residence Club, gym and meeting office and work office."
-                name="escription"
+                name="description"
                 className="border rounded w-full px-3 py-1"
               />
             </div>
@@ -123,7 +128,11 @@ export default function Add() {
                 onChange={handleFileChange}
               />
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              className="w-full my-6"
+              disabled={submitButtonDisabled}
+            >
               Submit
             </Button>
           </form>
