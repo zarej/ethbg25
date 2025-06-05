@@ -41,7 +41,7 @@ export async function deployApartmentNFT(buildingRegistry: BuildingRegistry): Pr
       "ApartmentNFT"
     )) as ApartmentNFT__factory;
 
-  const apartmentNFTDeployed = await apartmentNFT.connect(deployer).deploy(buildingRegistry.getAddress());
+  const apartmentNFTDeployed = await apartmentNFT.connect(deployer).deploy(buildingRegistry.getAddress(), {gasLimit: 10_000_000 });
   console.log("✅ ApartmentNFT:", await apartmentNFTDeployed.getAddress());
 
   return apartmentNFTDeployed;

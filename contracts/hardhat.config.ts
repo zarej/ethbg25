@@ -21,6 +21,11 @@ const config: HardhatUserConfig = {
       accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
       chainId: 420420421,
     },
+    neon: {
+      url: "https://devnet.neonevm.org",
+      accounts: PRIVATE_KEY !== undefined ? [PRIVATE_KEY] : [],
+      chainId: 245022926,
+    }
   },
   solidity: {
     compilers: [
